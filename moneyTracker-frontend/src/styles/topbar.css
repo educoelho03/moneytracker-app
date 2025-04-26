@@ -1,0 +1,71 @@
+.topbar-container {
+    width: 100%;
+    background-color: var(--gray-bg); 
+    padding: 10px 20px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    border-bottom: 1px solid #0000004d
+}
+
+.topbar-logo-image{
+    width: 120px;
+}
+
+.topbar-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.topbar-links{
+    display: flex;
+    margin-left: 2rem;
+    gap: 3rem;
+}
+
+.topbar-links button {
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.topbar-links button:hover {
+    color: var(--primary-color);
+}
+
+.topbar-links button:hover .nav-icon {
+    transform: translateY(-1px);
+}
+
+.topbar-user {
+    margin-left: auto;
+}
+
+.topbar-user button{
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.topbar-user button:hover {
+    color: var(--primary-color);
+}
+
+.topbar-user button:hover .nav-icon {
+    transform: translateY(-1px);
+}
