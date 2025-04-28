@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MoneyTrackerApplicationTests {
 
-	// TODO: ATUALIZAR/MELHORAR TODOS OS TESTES UNITARIOS
+	// TODO: PASSAR TESTES UNITARIOS PARA INGLES
 
 	@Test
 	void contextLoads() {

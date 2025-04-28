@@ -1,5 +1,5 @@
 services:
-  backend:
+  backend: # TODO: FIX: MIGRATIONS NAO ESTAO SUBINDO JUNTO COM O DOCKER, SOMENTE LOCALMENTE
     container_name: moneyTracker-backend
     build:
       context: ./moneyTracker
@@ -9,12 +9,11 @@ services:
     env_file:
       - .env
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/moneyTracker
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
     ports:
-      - "3001:3001"
+      - "8080:8080"
     networks:
       money-tracker-network:
         aliases:
@@ -32,7 +31,7 @@ services:
     environment:
       - API_URL=${API_URL}
     ports:
-      - "3000:3000"
+      - "80:80"
     networks:
       money-tracker-network:
         aliases:
@@ -41,9 +40,13 @@ services:
   db:
     image: postgres:latest
     restart: always
-    container_name: moneyTracker-db
+    container_name: moneyTracker-database
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: moneyTracker
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     networks:
