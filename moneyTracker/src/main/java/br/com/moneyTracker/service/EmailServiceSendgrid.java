@@ -42,10 +42,6 @@ public class EmailServiceSendgrid implements EmailInterface {
 
             Response response = sg.api(request);
 
-            System.out.println("SendGrid response code: " + response.getStatusCode());
-            System.out.println("SendGrid response body: " + response.getBody());
-            System.out.println("SendGrid response headers: " + response.getHeaders());
-
             if(response.getStatusCode() == 400) {
                 throw new SendMailException("Failed to send email. Status code: " + response.getStatusCode() + ", body: " + response.getBody());
             }

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Email", description = "Controller responsável pelo envio de e-mails do sistema")
 public class EmailController {
 
-    private final EmailServiceSendgrid emailService; // TODO: ALTERAR O EmailService para EmailServiceSendgrid
+    private final EmailServiceSendgrid emailService;
 
     public EmailController(EmailServiceSendgrid emailService) {
         this.emailService = emailService;
