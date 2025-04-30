@@ -1,13 +1,14 @@
 package br.com.moneyTracker.controller.auth;
 
-import br.com.moneyTracker.dto.EmailDetails;
 import br.com.moneyTracker.dto.request.AuthLoginRequestDTO;
 import br.com.moneyTracker.dto.request.AuthRegisterRequestDTO;
 import br.com.moneyTracker.dto.response.DataResponseDTO;
+import br.com.moneyTracker.exceptions.UserAlreadyExistsException;
 import br.com.moneyTracker.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

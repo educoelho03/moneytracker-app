@@ -2,7 +2,6 @@ package br.com.moneyTracker.controller.email;
 
 import br.com.moneyTracker.dto.request.EmailRequestDTO;
 import br.com.moneyTracker.interfaces.EmailInterface;
-import br.com.moneyTracker.service.EmailService;
 import br.com.moneyTracker.service.EmailServiceSendgrid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

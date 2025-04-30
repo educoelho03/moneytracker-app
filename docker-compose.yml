@@ -1,5 +1,5 @@
 services:
-  backend: # TODO: FIX: MIGRATIONS NAO ESTAO SUBINDO JUNTO COM O DOCKER, SOMENTE LOCALMENTE
+  backend:
     container_name: moneyTracker-backend
     build:
       context: ./moneyTracker
