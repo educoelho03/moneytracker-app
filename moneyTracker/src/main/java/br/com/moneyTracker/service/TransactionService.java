@@ -4,7 +4,7 @@ import br.com.moneyTracker.domain.entities.Transactions;
 import br.com.moneyTracker.domain.entities.User;
 import br.com.moneyTracker.domain.enums.TRANSACTION_TYPE;
 import br.com.moneyTracker.dto.response.TransactionResponseDTO;
-import br.com.moneyTracker.exceptions.SaldoInsuficienteException;
+import br.com.moneyTracker.exceptions.AmountInsufficientException;
 import br.com.moneyTracker.exceptions.InvalidTransactionException;
 import br.com.moneyTracker.infra.security.TokenService;
 import br.com.moneyTracker.repository.TransactionRepository;
@@ -72,7 +72,7 @@ public class TransactionService {
             } else if (transaction.getTransactionType() == TRANSACTION_TYPE.DEPOSITO) {
                 addToBalance(user, transaction.getAmount());
             }
-        } catch (SaldoInsuficienteException e) {
+        } catch (AmountInsufficientException e) {
             logger.error("Insufficient balance for user: {}", user.getEmail(), e);
             throw e;
         }
@@ -93,7 +93,7 @@ public class TransactionService {
             throw new InvalidTransactionException("Amount to subtract must be positive");
         }
         if (amount > user.getSaldo()) {
-            throw new SaldoInsuficienteException("Saldo insuficiente para realizar a transação.");
+            throw new AmountInsufficientException("Saldo insuficiente para realizar a transação.");
         }
         double newBalance = user.getSaldo() - amount;
         logger.info("Subtracting to balance for user: {}. amount: {}", user.getEmail(), amount);

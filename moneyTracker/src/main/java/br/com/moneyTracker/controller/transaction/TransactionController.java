@@ -35,8 +35,6 @@ public class TransactionController {
     @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     public ResponseEntity<TransactionResponseDTO> createNewTransaction(@RequestHeader("Authorization") String token, @RequestBody TransactionRequestDTO request) {
         Transactions createdTransaction = transactionService.createNewTransaction(token, request.transaction());
-
-        // Converte a transação criada para TransactionResponseDTO
         TransactionResponseDTO response = TransactionResponseDTO.fromEntity(createdTransaction);
         return ResponseEntity.status(201).body(response);
     }

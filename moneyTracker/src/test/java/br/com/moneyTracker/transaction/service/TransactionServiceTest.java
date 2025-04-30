@@ -4,7 +4,7 @@ import br.com.moneyTracker.domain.entities.Transactions;
 import br.com.moneyTracker.domain.entities.User;
 import br.com.moneyTracker.domain.enums.TRANSACTION_CATEGORY;
 import br.com.moneyTracker.dto.response.TransactionResponseDTO;
-import br.com.moneyTracker.exceptions.SaldoInsuficienteException;
+import br.com.moneyTracker.exceptions.AmountInsufficientException;
 import br.com.moneyTracker.infra.security.TokenService;
 import br.com.moneyTracker.repository.TransactionRepository;
 import br.com.moneyTracker.repository.UserRepository;
@@ -24,7 +24,6 @@ import java.util.List;
 
 import static br.com.moneyTracker.domain.enums.TRANSACTION_TYPE.DEPOSITO;
 import static br.com.moneyTracker.domain.enums.TRANSACTION_TYPE.DESPESA;
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -84,8 +83,8 @@ public class TransactionServiceTest {
     public void deveLancarUmaExcecaoQuandoOUsuarioNaoTiverSaldoParaATransação() {
         double valorMaiorQueSaldo = 1000.0;
 
-        SaldoInsuficienteException exception = assertThrows(
-                SaldoInsuficienteException.class,
+        AmountInsufficientException exception = assertThrows(
+                AmountInsufficientException.class,
                 () -> transactionService.subtractToBalance(user, valorMaiorQueSaldo));
 
         assertEquals("Saldo insuficiente para realizar a transação.", exception.getMessage());

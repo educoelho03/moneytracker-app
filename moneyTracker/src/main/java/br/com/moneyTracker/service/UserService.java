@@ -2,18 +2,13 @@ package br.com.moneyTracker.service;
 
 import br.com.moneyTracker.domain.entities.User;
 import br.com.moneyTracker.dto.request.AuthRegisterRequestDTO;
-import br.com.moneyTracker.exceptions.PasswordNullException;
-import br.com.moneyTracker.exceptions.SamePasswordException;
-import br.com.moneyTracker.exceptions.UserAlreadyExistsException;
-import br.com.moneyTracker.exceptions.UserNotFoundException;
+import br.com.moneyTracker.exceptions.*;
 import br.com.moneyTracker.interfaces.UserServiceInterface;
 import br.com.moneyTracker.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -34,7 +29,7 @@ public class UserService implements UserServiceInterface {
             throw new IllegalArgumentException("Email cannot be empty");
         }
         if (newPassword == null || newPassword.isEmpty()) {
-            throw new PasswordNullException("Password cannot be null or empty");
+            throw new PasswordNullOrEmptyException("Password cannot be null or empty");
         }
 
         User userRecovery = findUserByEmail(email);
@@ -49,14 +44,23 @@ public class UserService implements UserServiceInterface {
     @Override
     public User registerUser(AuthRegisterRequestDTO authRegisterRequestDTO) {
         String email = authRegisterRequestDTO.email().trim();
+
+        if(authRegisterRequestDTO.name() == null || authRegisterRequestDTO.name().trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+
         if (email.isEmpty()) {
             throw new IllegalArgumentException("Email cannot be empty");
         }
 
+        if(authRegisterRequestDTO.password() == null || authRegisterRequestDTO.password().trim().isEmpty()) {
+            throw new PasswordNullOrEmptyException("Password cannot be null or empty");
+        }
+
         userRepository.findUserByEmail(email)
                 .ifPresent(user -> {
-                    throw new UserAlreadyExistsException(
-                            String.format("User with email %s already exists", email));
+                    throw new EmailAlreadyExistException(
+                            String.format("User with this email %s already exists", email));
                 });
 
         User newUser = createNewUser(authRegisterRequestDTO);

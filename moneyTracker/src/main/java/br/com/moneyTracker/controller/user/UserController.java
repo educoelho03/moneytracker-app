@@ -4,7 +4,6 @@ import br.com.moneyTracker.dto.request.ResetPasswordRequestDTO;
 import br.com.moneyTracker.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,26 +19,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<String> getUser(){
-        return ResponseEntity.ok("sucesso!");
-    }
-
     @PostMapping("/reset-password")
     @Operation(summary = "Atualiza a senha do usuario", description = "Método para alterar/atualizar a senha do usuario")
     @ApiResponse(responseCode = "200", description = "Senha alterada com sucesso")
     @ApiResponse(responseCode = "400", description = "Erro ao atualizar a senha")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
-    public ResponseEntity<String> updatePassword(@RequestBody ResetPasswordRequestDTO passwordRequestDTO){
-        try {
-            if(!passwordRequestDTO.newPassword().equals(passwordRequestDTO.confirmNewPassword())){
-                return ResponseEntity.badRequest().body("A nova senha e a confirmação não coincidem.");
-            }
-            userService.updateUserPassword(passwordRequestDTO.email(), passwordRequestDTO.newPassword());
-            return ResponseEntity.ok("Senha atualizada com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> updatePassword(@RequestBody ResetPasswordRequestDTO passwordRequestDTO) {
+        userService.updateUserPassword(passwordRequestDTO.email(), passwordRequestDTO.newPassword());
+        return ResponseEntity.ok("Senha atualizada com sucesso!");
     }
-
 }

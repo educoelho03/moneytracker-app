@@ -33,7 +33,6 @@ public class AuthController {
     @ApiResponse(responseCode = "400", description = "Credenciais inválidas ou erro na requisição")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<DataResponseDTO> loginUser(@RequestBody AuthLoginRequestDTO body) {
-
         DataResponseDTO response = authService.loginUser(body);
         return ResponseEntity.ok(response);
     }
