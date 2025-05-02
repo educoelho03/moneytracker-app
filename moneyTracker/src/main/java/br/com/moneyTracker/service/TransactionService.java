@@ -34,13 +34,15 @@ public class TransactionService {
     }
 
     public List<TransactionResponseDTO> listTransactionsByEmail(String token) { // TODO: DUVIDA AQUI, É UMA BOA PRATICA FAZER A CONVERSAO DE ENTITY PARA RESPONSE DENTRO DA SERVICE?
-        String userEmail = tokenService.validateToken(token);
+        String tokenModified = token.replace("Bearer ", "");
+        String userEmail = tokenService.validateToken(tokenModified);
         User user = userService.findUserByEmail(userEmail);
 
         logger.info("Listing transactions for user: {}", userEmail);
 
         return user.getTransactions().stream()
                 .map(transactions -> new TransactionResponseDTO(
+                        transactions.getTransaction_id(),
                         transactions.getName(),
                         transactions.getAmount(),
                         transactions.getTransactionType(),

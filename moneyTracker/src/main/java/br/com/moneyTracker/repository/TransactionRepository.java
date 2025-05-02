@@ -10,5 +10,4 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transactions, Integer> {
-    List<TransactionResponseDTO> getAllByUser(User user);
 }

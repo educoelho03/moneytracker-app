@@ -25,6 +25,18 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<StandardError> userEmailNotFound(UserNotFoundException ex, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.NOT_FOUND.value());
+        err.setError("User with this email not found.");
+        err.setMessage(ex.getMessage());
+        err.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
     @ExceptionHandler(SamePasswordException.class)
     public ResponseEntity<StandardError> samePasswordBadRequest(SamePasswordException ex, HttpServletRequest request){
         StandardError err = new StandardError();
