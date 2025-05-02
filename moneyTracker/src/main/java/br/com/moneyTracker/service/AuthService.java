@@ -5,17 +5,12 @@ import br.com.moneyTracker.dto.request.AuthLoginRequestDTO;
 import br.com.moneyTracker.dto.request.AuthRegisterRequestDTO;
 import br.com.moneyTracker.dto.response.DataResponseDTO;
 import br.com.moneyTracker.exceptions.InvalidCredentialsException;
-import br.com.moneyTracker.exceptions.UserAlreadyExistsException;
 import br.com.moneyTracker.exceptions.UserNotFoundException;
 import br.com.moneyTracker.infra.security.TokenService;
 import br.com.moneyTracker.interfaces.AuthServiceInterface;
 import br.com.moneyTracker.interfaces.EmailInterface;
-import br.com.moneyTracker.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Service
 public class AuthService implements AuthServiceInterface {

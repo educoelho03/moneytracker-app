@@ -15,9 +15,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      money-tracker-network:
-        aliases:
-          - backend
+      - money-tracker-network
 
   frontend:
     container_name: moneyTracker-frontend
@@ -33,9 +31,7 @@ services:
     ports:
       - "80:80"
     networks:
-      money-tracker-network:
-        aliases:
-          - frontend
+      - money-tracker-network
 
   db:
     image: postgres:latest
@@ -50,9 +46,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      money-tracker-network:
-        aliases:
-          - database
+      - money-tracker-network
     volumes:
       - postgres-data:/var/lib/postgresql/data
 

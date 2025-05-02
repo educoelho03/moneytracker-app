@@ -2,8 +2,8 @@ package br.com.moneyTracker.user.service;
 
 import br.com.moneyTracker.domain.entities.User;
 import br.com.moneyTracker.dto.request.AuthRegisterRequestDTO;
+import br.com.moneyTracker.exceptions.EmailAlreadyExistException;
 import br.com.moneyTracker.exceptions.SamePasswordException;
-import br.com.moneyTracker.exceptions.UserAlreadyExistsException;
 import br.com.moneyTracker.repository.UserRepository;
 import br.com.moneyTracker.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -66,7 +66,7 @@ public class UserServiceTest {
 
         when(userRepository.findUserByEmail(authRegister.email())).thenReturn(Optional.of(existingUser));
 
-        assertThrows(UserAlreadyExistsException.class, () -> userService.registerUser(authRegister), "User with this email: " + authRegister.email() + " already exists");
+        assertThrows(EmailAlreadyExistException.class, () -> userService.registerUser(authRegister), "User with this email: " + authRegister.email() + " already exists");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class UserServiceTest {
         );
 
         // Verificações adicionais
-        assertEquals("Password must be different", exception.getMessage());
+        assertEquals("Passwords must be different", exception.getMessage());
         verify(passwordEncoder, times(1)).matches(newPassword, currentPassword);
         verify(passwordEncoder, never()).encode(anyString());
         verify(userRepository, never()).save(any(User.class));
