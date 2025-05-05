@@ -55,7 +55,7 @@ export default function Signup() {
         const name = (document.getElementById("name") as HTMLInputElement).value;
         const email = (document.getElementById("email") as HTMLInputElement).value;
         const password = (document.getElementById("password") as HTMLInputElement).value;
-        const repeatPassword = (document.getElementById("repeat-password") as HTMLInputElement).value;7
+        const repeatPassword = (document.getElementById("repeat-password") as HTMLInputElement).value;
 
         if (password !== repeatPassword) {
             handleShowAlert("As senhas precisam ser iguais.");

@@ -47,6 +47,7 @@ export default function Login() {
             localStorage.setItem('email', email)
             navigate('/dashboard');
         } catch (err) {
+            console.log(err)
             handleShowAlert();
         } finally {
             setIsLoading(false)
