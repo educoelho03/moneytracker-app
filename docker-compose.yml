@@ -1,6 +1,6 @@
 services:
   backend:
-    container_name: moneyTracker-backend
+    container_name: moneyTracker-back
     build:
       context: ./moneyTracker
       dockerfile: Dockerfile
@@ -13,12 +13,12 @@ services:
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
     ports:
-      - "8083:8080"
+      - "8080:8080"
     networks:
       - money-tracker-network
 
   frontend:
-    container_name: moneyTracker-frontend
+    container_name: moneyTracker-front
     build:
       context: ./moneyTracker-frontend
       dockerfile: Dockerfile
@@ -27,7 +27,7 @@ services:
     env_file:
       - .env
     environment:
-      - VITE_API_BASE_URL={VITE_API_BASE_URL}
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     ports:
       - "80:80"
     networks:

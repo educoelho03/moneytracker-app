@@ -1,12 +1,17 @@
-# Estágio de construção (build)
+# Configurando Node
 FROM node:18 as build
+
 WORKDIR /app
+
 COPY package*.json ./
+
 RUN npm install
+
 COPY . .
+
 RUN npm run build
 
-# Estágio de produção
+# Configurando nginx
 FROM nginx:alpine
 
 # Remove a configuração padrão do Nginx
