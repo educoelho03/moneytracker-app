@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 @Tag(name = "Usuario", description = "Controlador para atualizar a senha do usuario")
 public class UserController {
 

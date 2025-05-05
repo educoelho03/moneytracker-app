@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/transactions")
+@RequestMapping("/api/transactions")
 @Tag(name = "Transações", description = "Controller responsável pelo gerenciamento de transações financeiras")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 public class TransactionController {
