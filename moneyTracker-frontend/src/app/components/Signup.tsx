@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import axios from "axios";
 
 import "../../styles/defaultLogin.css";
+import logo from "../../assets/svg/money-tracker-logo.png";
+import mainIlustration from "../../assets/svg/main-ilustration.svg";
 
 
 export default function Signup() {
@@ -72,7 +74,8 @@ export default function Signup() {
             handleShowSuccess("Cadastro realizado com sucesso!", () => {
                 handleRedirectToLogin(); 
             });
-        } catch (error: any) {
+        } catch (error) {
+            console.log(error)
             handleShowAlert("Falha ao realizar o cadastro.");
         } finally {
             setIsLoading(false)
@@ -84,7 +87,7 @@ export default function Signup() {
         <ToastContainer /> 
             <main>
             <section className="form-section">
-                <img src="src/assets/svg/money-tracker-logo.png" className="logo-sigunp-image" alt="Logo" />
+                <img src={logo} className="logo-sigunp-image" alt="Logo" />
                 <h2 style={{marginBottom: '15px'}}>Signup your Account</h2>
 
                 <form onSubmit={handleSubmit}>
@@ -162,7 +165,7 @@ export default function Signup() {
             </section>
             <section className="main-section">
                 <h1>Track your money, Now !!</h1>
-                <img src="src/assets/svg/main-ilustration.svg" alt="Main Illustration" />
+                <img src={mainIlustration} alt="Main Illustration" />
             </section>
         </main>
         </>

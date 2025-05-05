@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 
 import "../../styles/defaultLogin.css";
+import mainIlustration from "../../assets/svg/main-ilustration.svg";
+import logo from "../../assets/svg/money-tracker-logo.png";
 
 
 export default function Login() {
@@ -56,7 +58,7 @@ export default function Login() {
             <ToastContainer />
             <main>
                 <section className="form-section">
-                    <img src="src/assets/svg/money-tracker-logo.png" className="logo-login-image" alt="Logo"/>
+                    <img src={logo} className="logo-sigunp-image" alt="Logo"/>
                     <h3>Welcome Back</h3>
                     <div className="btn-wrapper">
                         <form action="/oauth2/authorization/google" method="GET">
@@ -121,7 +123,7 @@ export default function Login() {
                 </section>
                 <section className="main-section">
                     <h1>Track your money, Now!!</h1>
-                    <img src="src/assets/svg/main-ilustration.svg" alt="Main Illustration" />
+                    <img src={mainIlustration} alt="Main Illustration"/>
                 </section>
             </main>
         </>
