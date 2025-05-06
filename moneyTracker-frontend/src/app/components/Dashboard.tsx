@@ -53,6 +53,7 @@ export default function Dashboard() {
 
     const closeModal = () => {
         setModalOpen(false); 
+        setModalOpen(false);
     };
 
 
