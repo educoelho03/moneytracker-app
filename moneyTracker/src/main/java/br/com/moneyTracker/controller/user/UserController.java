@@ -26,6 +26,6 @@ public class UserController {
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<String> updatePassword(@RequestBody ResetPasswordRequestDTO passwordRequestDTO) {
         userService.updateUserPassword(passwordRequestDTO.email(), passwordRequestDTO.newPassword());
-        return ResponseEntity.ok("Senha atualizada com sucesso!");
+        return ResponseEntity.status(200).body("Password updated successfully.");
     }
 }
