@@ -1,6 +1,24 @@
 services:
+  db:
+    image: postgres:latest
+    container_name: moneyTracker-database
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: moneyTracker
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '5432:5432'
+    networks:
+      - money-tracker-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      -
   backend:
     container_name: moneyTracker-back
+    command: ["/wait-for-it.sh", "db:5432", "-t", "30", "--", "java", "-jar", "api.jar"]
     build:
       context: ./moneyTracker
       dockerfile: Dockerfile
@@ -33,24 +51,6 @@ services:
       - "80:80"
     networks:
       - money-tracker-network
-
-  db:
-    image: postgres:latest
-    container_name: moneyTracker-database
-    restart: always
-    env_file:
-      - .env
-    environment:
-      POSTGRES_DB: moneyTracker
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - '5432:5432'
-    networks:
-      - money-tracker-network
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-
 
 volumes:
   postgres-data:
