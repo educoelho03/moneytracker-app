@@ -82,6 +82,7 @@ public class TransactionService {
 
     public void addToBalance(User user, double amount){
         if(amount <= 0) {
+            logger.error("Amount to add must be positive");
             throw new InvalidTransactionException("Amount to add must be positive");
         }
         double newBalance = user.getSaldo() + amount;
@@ -92,9 +93,11 @@ public class TransactionService {
 
     public void subtractToBalance(User user, double amount) {
         if(amount <= 0) {
+            logger.error("Amount to subtract must be positive");
             throw new InvalidTransactionException("Amount to subtract must be positive");
         }
         if (amount > user.getSaldo()) {
+            logger.error("Saldo insuficiente para realizar a transação");
             throw new AmountInsufficientException("Saldo insuficiente para realizar a transação.");
         }
         double newBalance = user.getSaldo() - amount;

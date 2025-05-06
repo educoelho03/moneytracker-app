@@ -2,6 +2,7 @@ package br.com.moneyTracker.controller.exceptions;
 
 import br.com.moneyTracker.dto.StandardError;
 import br.com.moneyTracker.exceptions.*;
+import com.sendgrid.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

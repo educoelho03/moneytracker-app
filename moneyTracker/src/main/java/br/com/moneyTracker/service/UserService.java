@@ -25,24 +25,32 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void updateUserPassword(String email, String newPassword) {
+        logger.info("Attempting to update password for user: {}", email);
+
         if (email.isEmpty()) {
+            logger.error("Empty email provided for password update");
             throw new IllegalArgumentException("Email cannot be empty");
         }
         if (newPassword == null || newPassword.isEmpty()) {
+            logger.error("Empty or null password provided for user: {}", email);
             throw new PasswordNullOrEmptyException("Password cannot be null or empty");
         }
 
         User userRecovery = findUserByEmail(email);
+        logger.debug("User found for password update: {}", email);
 
         if(passwordEncoder.matches(newPassword, userRecovery.getPassword())) {
+            logger.warn("Attempt to set same password for user: {}", email);
             throw new SamePasswordException("Passwords must be different");
         }
         userRecovery.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userRecovery);
+        logger.info("Password successfully updated for user: {}", email);
     }
 
     @Override
     public User registerUser(AuthRegisterRequestDTO authRegisterRequestDTO) {
+        logger.info("Starting registration process for email: {}", authRegisterRequestDTO.email());
         String email = authRegisterRequestDTO.email().trim();
 
         if(authRegisterRequestDTO.name() == null || authRegisterRequestDTO.name().trim().isEmpty()) {
@@ -64,7 +72,9 @@ public class UserService implements UserServiceInterface {
                 });
 
         User newUser = createNewUser(authRegisterRequestDTO);
+        logger.info("User successfully registered with email: {}", email);
         return userRepository.save(newUser);
+
     }
 
     public User findUserByEmail(String email) {
@@ -73,11 +83,12 @@ public class UserService implements UserServiceInterface {
     }
 
     public User createNewUser(AuthRegisterRequestDTO dto) {
+        logger.debug("Creating new user entity for email: {}", dto.email());
         String name = dto.name();
         String email = dto.email();
         String encodedPassword = passwordEncoder.encode(dto.password());
 
-
+        logger.trace("User details - Name: {}, Email: {}", name, email);
         return new User(name, email, encodedPassword);
     }
 
