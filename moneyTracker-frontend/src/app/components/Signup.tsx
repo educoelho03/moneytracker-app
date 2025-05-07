@@ -1,6 +1,7 @@
 import  React, { useState } from "react";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import axios from "axios";
@@ -12,10 +13,12 @@ import mainIlustration from "../../assets/svg/main-ilustration.svg";
 
 export default function Signup() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const handleRedirectToLogin = () => {
-        navigate('/login'); 
+        navigate('/login');
     };
 
     const handleShowAlert = (message: string, onCloseCallback?: () => void) => {
@@ -29,7 +32,7 @@ export default function Signup() {
             progress: undefined,
             theme: "colored",
             transition: Slide,
-            onClose: onCloseCallback, 
+            onClose: onCloseCallback,
         });
     };
 
@@ -44,7 +47,7 @@ export default function Signup() {
             progress: undefined,
             theme: "colored",
             transition: Slide,
-            onClose: onCloseCallback, 
+            onClose: onCloseCallback,
         });
     };
 
@@ -72,11 +75,11 @@ export default function Signup() {
             localStorage.setItem("name", name);
 
             handleShowSuccess("Cadastro realizado com sucesso!", () => {
-                handleRedirectToLogin(); 
+                handleRedirectToLogin();
             });
         } catch (error) {
-            console.log(error)
             handleShowAlert("Falha ao realizar o cadastro.");
+            console.log(error)
         } finally {
             setIsLoading(false)
         }
@@ -84,7 +87,7 @@ export default function Signup() {
 
     return (
         <>
-        <ToastContainer /> 
+        <ToastContainer />
             <main>
             <section className="form-section">
                 <img src={logo} className="logo-sigunp-image" alt="Logo" />
@@ -118,21 +121,39 @@ export default function Signup() {
 
                     <div className="input-wrapper">
                         <label htmlFor="password">Password</label>
-                        <div className="input-container">
+                        <div className="input-container password-container">
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 id="password"
                                 placeholder="Enter your password"
                                 required
+                                className="password-input"
                             />
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                                {showPassword ? <FaRegEye/> : <FaRegEyeSlash/>}
+                            </button>
                         </div>
-                        <div className="input-container">
+                        <div className="input-container password-container">
                             <input
-                                type="password"
+                                type={showRepeatPassword ? "text" : "password"}
                                 id="repeat-password"
                                 placeholder="Repeat your password"
                                 required
+                                className="password-input"
                             />
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                                aria-label={showRepeatPassword ? "Hide password" : "Show password"}
+                            >
+                                {showRepeatPassword ? <FaRegEye/> : <FaRegEyeSlash/>}
+                            </button>
                         </div>
                     </div>
 
@@ -141,8 +162,8 @@ export default function Signup() {
 
                         <button type="submit" className="btn-primary" disabled={isLoading}>
                             {isLoading ? (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <CircularProgress size={20} sx={{ color: 'white' }} />
+                                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                    <CircularProgress size={20} sx={{color: 'white'}}/>
                                 </Box>
                             ) : (
                                 "Sign Up"
@@ -163,11 +184,11 @@ export default function Signup() {
                     </div>
                 </form>
             </section>
-            <section className="main-section">
-                <h1>Track your money, Now !!</h1>
-                <img src={mainIlustration} alt="Main Illustration" />
-            </section>
-        </main>
+                <section className="main-section">
+                    <h1>Track your money, Now !!</h1>
+                    <img src={mainIlustration} alt="Main Illustration"/>
+                </section>
+            </main>
         </>
     );
 }

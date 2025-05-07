@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import axios from 'axios';
@@ -10,12 +11,12 @@ import "../../styles/defaultLogin.css";
 import mainIlustration from "../../assets/svg/main-ilustration.svg";
 import logo from "../../assets/svg/money-tracker-logo.png";
 
-
 export default function Login() {
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handleShowAlert = () => {
         toast.error('Credenciais invalidas', {
@@ -29,28 +30,28 @@ export default function Login() {
             theme: "colored",
             transition: Slide,
         });
-    }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true)
+        setIsLoading(true);
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login`, {
+            const response = await axios.post(`http://localhost:8080/api/login`, {
                 email,
                 password
             });
 
             const { token } = response.data;
-            
+
             localStorage.setItem('jwtToken', token);
-            localStorage.setItem('email', email)
+            localStorage.setItem('email', email);
             navigate('/dashboard');
         } catch (err) {
-            console.log(err)
+            console.log(err);
             handleShowAlert();
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
 
@@ -91,14 +92,23 @@ export default function Login() {
 
                         <div className="input-wrapper">
                             <label htmlFor="password">Your Password</label>
-                            <div className="input-container">
+                            <div className="input-container password-container">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     id="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    className="password-input"
                                 />
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                                </button>
                             </div>
                             <a href="/forgot-password">forgot your password?</a>
                         </div>

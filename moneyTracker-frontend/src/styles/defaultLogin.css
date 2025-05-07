@@ -169,3 +169,34 @@ form span {
     text-decoration: none;
     color: var(--primary-color);
 }
+
+/* Password Input Styles */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input {
+    padding-right: 40px !important; /* Espaço para o ícone */
+    width: 100%;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    width: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
