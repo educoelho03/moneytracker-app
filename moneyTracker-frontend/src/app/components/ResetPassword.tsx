@@ -73,7 +73,7 @@ export default function ResetPassword() {
             handleShowSuccess("Senha Alterada com sucesso!", () => {
                 handleRedirectToLogin(); 
             });
-        } catch (error: any) {
+        } catch (error) {
             console.log(error);
             handleShowAlert("Falha ao alterar a senha.");
         } finally {

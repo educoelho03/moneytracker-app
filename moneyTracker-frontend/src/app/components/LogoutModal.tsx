@@ -15,7 +15,7 @@ const LogoutModal: React.FC<LogoutModalProps> = ({ onClose }) => {
 
     const handleLogout = () => {
         localStorage.clear();
-        navigate('/');
+        navigate('/login');
         onClose();
     };
 
