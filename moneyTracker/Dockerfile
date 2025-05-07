@@ -6,7 +6,10 @@ WORKDIR /app
 
 # Copia o arquivo JAR gerado pelo Maven para o contêiner
 COPY target/moneyTracker-0.0.1-SNAPSHOT.jar app.jar
-COPY src/main/resources/db/migration /app/migrations
+COPY wait-for-it.sh /wait-for-it.sh
+COPY src/main/resources/db/migration /app/resources/db/migration
+
+RUN chmod +x /wait-for-it.sh
 
 # Expõe a porta 8080 para acesso externo
 EXPOSE 8080
