@@ -1,7 +1,6 @@
 services:
   backend:
     container_name: moneyTracker-back
-    command: [ "/wait-for-it.sh", "db:5432", "-t", "15", "--", "java", "-jar", "app.jar" ]
     build:
       context: ./moneyTracker
       dockerfile: Dockerfile
@@ -13,7 +12,6 @@ services:
       - SPRING_DATASOURCE_URL=${DB_URL}
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
     ports:
       - "8080:8080"
     networks:
