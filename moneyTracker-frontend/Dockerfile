@@ -1,27 +1,20 @@
-# Configurando Node
-FROM node:18 as build
+FROM node:latest
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
+WORKDIR /tmp/react
 
 COPY . .
 
+RUN rm -rf node_modules
+RUN npm install
+
 RUN npm run build
 
-# Configurando nginx
-FROM nginx:alpine
+RUN mkdir -p /var/www/html
 
-# Remove a configuração padrão do Nginx
-RUN rm -rf /etc/nginx/conf.d/default.conf
+RUN mv dist/* /var/www/html
 
-# Copia nossa configuração customizada do Nginx
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+VOLUME /var/www/html
 
-# Copia APENAS os arquivos compilados do estágio de construção
-COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+RUN rm -rf /tmp/react

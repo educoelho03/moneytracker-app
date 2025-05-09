@@ -2,9 +2,11 @@ package br.com.moneyTracker.config.cors;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {
 
     @Override
@@ -12,8 +14,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:5173",
-                        "http://localhost",
-                        "http://localhost:80",
+                        "http://localhost:8081",
                         "http://frontend:80",
                         "http://backend:8081"
                 )

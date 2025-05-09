@@ -1,5 +1,4 @@
 services:
-
   db:
     image: postgres:latest
     container_name: moneytracker_database_container
@@ -13,15 +12,11 @@ services:
     networks:
       - money-tracker-network
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-volume:/var/lib/postgresql/data
 
   backend:
     container_name: moneytracker_backend_container
-    build:
-      context: ./moneyTracker
-      dockerfile: Dockerfile
-    depends_on:
-      - db
+    build: ./moneyTracker
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/moneyTracker
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -29,27 +24,38 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - "8081:8080"
+    depends_on:
+      - db
     networks:
       - money-tracker-network
 
   frontend:
     container_name: moneytracker_frontend_container
-    build:
-      context: ./moneyTracker-frontend
-      dockerfile: Dockerfile
+    build: ./moneyTracker-frontend
     depends_on:
       - backend
     environment:
-      - VITE_API_BASE_URL=http://localhost:8081
-    ports:
-      - "80:80"
+      - VITE_API_BASE_URL=http://backend:8080
+    volumes:
+      - frontend-volume:/var/www/html
     networks:
       - money-tracker-network
 
+  nginx:
+    container_name: nginx-container
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - frontend-volume:/var/www/html
+    depends_on:
+      - backend
+      - frontend
+      - db
 
 volumes:
-  postgres-data:
-    external: false
+  postgres-volume:
+  frontend-volume:
 
 networks:
   money-tracker-network:
