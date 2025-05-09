@@ -66,7 +66,7 @@ export default function Signup() {
         }
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/register`, {
+            await axios.post(`http://localhost:8080/api/register`, {
                 name,
                 email,
                 password,
