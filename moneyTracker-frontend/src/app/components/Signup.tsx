@@ -62,10 +62,12 @@ export default function Signup() {
 
         if (password !== repeatPassword) {
             handleShowAlert("As senhas precisam ser iguais.");
+            console.log("API BASE URL:", import.meta.env.VITE_API_BASE_URL);
             return;
         }
 
         try {
+            console.log("API BASE URL:", import.meta.env.VITE_API_BASE_URL);
             await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/register`, {
                 name,
                 email,
