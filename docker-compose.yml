@@ -31,31 +31,19 @@ services:
 
   frontend:
     container_name: moneytracker_frontend_container
-    build: ./moneyTracker-frontend
-    depends_on:
-      - backend
+    build:
+      context: ./moneyTracker-frontend
+    env_file:
+      - .env
     environment:
       - VITE_API_BASE_URL=http://backend:8080
-    volumes:
-      - frontend-volume:/var/www/html
+    depends_on:
+      - backend
     networks:
       - money-tracker-network
 
-  nginx:
-    container_name: nginx-container
-    build: ./nginx
-    ports:
-      - "80:80"
-    volumes:
-      - frontend-volume:/var/www/html
-    depends_on:
-      - backend
-      - frontend
-      - db
-
 volumes:
   postgres-volume:
-  frontend-volume:
 
 networks:
   money-tracker-network:

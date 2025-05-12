@@ -1,20 +1,31 @@
-FROM node:latest
+# Configurando Node
+FROM node:18 as build
 
-WORKDIR /tmp/react
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
 
 COPY . .
 
-RUN rm -rf node_modules
-RUN npm install
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 RUN npm run build
 
-RUN mkdir -p /var/www/html
+# Configurando nginx
+FROM nginx:alpine
 
-RUN mv dist/* /var/www/html
+# Remove a configuração padrão do Nginx
+RUN rm -rf /etc/nginx/conf.d/default.conf
 
-VOLUME /var/www/html
+# Copia nossa configuração customizada do Nginx
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-WORKDIR /
+# Copia APENAS os arquivos compilados do estágio de construção
+COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN rm -rf /tmp/react
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
