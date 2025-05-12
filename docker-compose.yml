@@ -1,60 +1,51 @@
 services:
-  backend:
-    container_name: moneyTracker-back
-    command: [ "/wait-for-it.sh", "db:5432", "-t", "15", "--", "java", "-jar", "app.jar" ]
-    build:
-      context: ./moneyTracker
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-    env_file:
-      - .env
-    environment:
-      - SPRING_DATASOURCE_URL=${DB_URL}
-      - SPRING_DATASOURCE_USERNAME=${DB_USER}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
-    ports:
-      - "8080:8080"
-    networks:
-      - money-tracker-network
-
-  frontend:
-    container_name: moneyTracker-front
-    build:
-      context: ./moneyTracker-frontend
-      dockerfile: Dockerfile
-    depends_on:
-      - backend
-    env_file:
-      - .env
-    environment:
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
-    ports:
-      - "80:80"
-    networks:
-      - money-tracker-network
-
   db:
     image: postgres:latest
-    container_name: moneyTracker-database
+    container_name: moneytracker_database_container
     restart: always
-    env_file:
-      - .env
     environment:
-      POSTGRES_DB: moneyTracker
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - POSTGRES_DB=moneyTracker
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=PASSWORD
     ports:
       - '5432:5432'
     networks:
       - money-tracker-network
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-volume:/var/lib/postgresql/data
+
+  backend:
+    container_name: moneytracker_backend_container
+    build: ./moneyTracker
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/moneyTracker
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=PASSWORD
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    networks:
+      - money-tracker-network
+
+  frontend:
+    container_name: moneytracker_frontend_container
+    build:
+      context: ./moneyTracker-frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_BASE_URL=http://backend:8080
+    networks:
+      - money-tracker-network
 
 volumes:
-  postgres-data:
-    external: false
+  postgres-volume:
+
 networks:
   money-tracker-network:
     driver: bridge
