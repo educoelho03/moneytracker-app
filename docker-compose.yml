@@ -33,10 +33,12 @@ services:
     container_name: moneytracker_frontend_container
     build:
       context: ./moneyTracker-frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
     env_file:
       - .env
-    environment:
-      - VITE_API_BASE_URL=http://backend:8080
+    ports:
+      - "80:80"
     depends_on:
       - backend
     networks:
