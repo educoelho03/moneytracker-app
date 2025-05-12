@@ -1,11 +1,11 @@
 package br.com.moneyTracker.user.service;
 
-import br.com.moneyTracker.domain.entities.User;
-import br.com.moneyTracker.dto.request.AuthRegisterRequestDTO;
-import br.com.moneyTracker.exceptions.EmailAlreadyExistException;
-import br.com.moneyTracker.exceptions.SamePasswordException;
-import br.com.moneyTracker.repository.UserRepository;
-import br.com.moneyTracker.service.UserService;
+import br.com.moneyTracker.domain.model.entities.User;
+import br.com.moneyTracker.api.dto.request.AuthRegisterRequestDTO;
+import br.com.moneyTracker.api.exceptions.EmailAlreadyExistException;
+import br.com.moneyTracker.api.exceptions.SamePasswordException;
+import br.com.moneyTracker.infrastructure.repository.UserRepository;
+import br.com.moneyTracker.domain.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

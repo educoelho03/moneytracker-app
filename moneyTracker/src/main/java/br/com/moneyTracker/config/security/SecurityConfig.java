@@ -1,7 +1,5 @@
 package br.com.moneyTracker.config.security;
 
-import br.com.moneyTracker.infra.security.CustomUserDetailsService;
-import br.com.moneyTracker.infra.security.SecurityFilter;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +28,6 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     public static final String SECURITY = "bearerAuth";
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     SecurityFilter securityFilter;

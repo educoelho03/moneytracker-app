@@ -1,15 +1,15 @@
 package br.com.moneyTracker.transaction.service;
 
-import br.com.moneyTracker.domain.entities.Transactions;
-import br.com.moneyTracker.domain.entities.User;
-import br.com.moneyTracker.domain.enums.TRANSACTION_CATEGORY;
-import br.com.moneyTracker.dto.response.TransactionResponseDTO;
-import br.com.moneyTracker.exceptions.AmountInsufficientException;
-import br.com.moneyTracker.infra.security.TokenService;
-import br.com.moneyTracker.repository.TransactionRepository;
-import br.com.moneyTracker.repository.UserRepository;
-import br.com.moneyTracker.service.TransactionService;
-import br.com.moneyTracker.service.UserService;
+import br.com.moneyTracker.domain.model.entities.Transactions;
+import br.com.moneyTracker.domain.model.entities.User;
+import br.com.moneyTracker.domain.model.enums.TRANSACTION_CATEGORY;
+import br.com.moneyTracker.api.dto.response.TransactionResponseDTO;
+import br.com.moneyTracker.api.exceptions.AmountInsufficientException;
+import br.com.moneyTracker.domain.service.TokenService;
+import br.com.moneyTracker.infrastructure.repository.TransactionRepository;
+import br.com.moneyTracker.infrastructure.repository.UserRepository;
+import br.com.moneyTracker.domain.service.TransactionService;
+import br.com.moneyTracker.domain.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.List;
 
-import static br.com.moneyTracker.domain.enums.TRANSACTION_TYPE.DEPOSITO;
-import static br.com.moneyTracker.domain.enums.TRANSACTION_TYPE.DESPESA;
+import static br.com.moneyTracker.domain.model.enums.TRANSACTION_TYPE.DEPOSITO;
+import static br.com.moneyTracker.domain.model.enums.TRANSACTION_TYPE.DESPESA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
