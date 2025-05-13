@@ -6,7 +6,6 @@ import br.com.moneyTracker.api.exceptions.SamePasswordException;
 import br.com.moneyTracker.api.exceptions.UserNotFoundException;
 import br.com.moneyTracker.domain.model.entities.User;
 import br.com.moneyTracker.api.dto.request.AuthRegisterRequestDTO;
-import br.com.moneyTracker.exceptions.*;
 import br.com.moneyTracker.interfaces.UserServiceInterface;
 import br.com.moneyTracker.infrastructure.repository.UserRepository;
 import org.slf4j.Logger;

@@ -9,7 +9,7 @@ COPY target/moneyTracker-0.0.1-SNAPSHOT.jar app.jar
 COPY src/main/resources/db/migration /app/resources/db/migration
 
 # Expõe a porta 8081 para acesso externo
-EXPOSE 8081
+EXPOSE 8080
 
 # Comando para executar a aplicação
 CMD ["java", "-jar", "app.jar"]
