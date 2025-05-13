@@ -54,14 +54,10 @@ git clone https://github.com/seu-usuario/money-tracker.git
 
 2. Criar e configurar o .env
 ```bash
-DB_USER=
-DB_PORT=
-DB_PASSWORD=
-DB_HOST=
 SENDGRID_API_KEY=
 JWT_SECRET_KEY=
 
-API_URL=
+VITE_API_BASE_URL=
 ```
 
 3. Executar o mvn clean package no terminal:
