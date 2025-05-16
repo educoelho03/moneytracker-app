@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
-                        .requestMatchers(HttpMethod.GET,  "/v3/api-docs/**", "/swagger-ui/**", "/swagger/ui.html").permitAll()
+                        .requestMatchers(HttpMethod.GET,  "/v3/api-docs/**", "/swagger-ui/**", "/swagger/ui.html").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

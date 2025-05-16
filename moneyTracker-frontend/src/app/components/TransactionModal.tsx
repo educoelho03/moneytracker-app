@@ -10,11 +10,16 @@ interface TransactionModalProps {
 const TransactionModal: React.FC<TransactionModalProps> = ({ onClose }) => {
     const [name, setName] = useState<string>("");
     const [amount, setAmount] = useState<number>(50);
+    const [date, setDate] = useState<string>("")
     const [selectedType, setSelectedType] = useState<string>("DESPESA");
     const [selectedCategory, setSelectedCategory] = useState<string>("SALARY");
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
+    };
+
+    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDate(event.target.value);
     };
 
     const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,11 +43,12 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ onClose }) => {
                     name,
                     amount,
                     transactionType,
-                    transactionCategory
+                    transactionCategory,
+                    date
                 }
             };
 
-            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/add`, transactionData, {
+            await axios.post(`http://localhost:8080/api/transactions/add`, transactionData, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json'
@@ -93,8 +99,8 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ onClose }) => {
                             onChange={handleTypeChange}
                             required
                         >
-                            <option value="DESPESA">Despesa</option>
                             <option value="DEPOSITO">Depósito</option>
+                            <option value="DESPESA">Despesa</option>
                         </select>
                     </div>
                     <div className="form-space">
@@ -113,6 +119,16 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ onClose }) => {
                             <option value="TRAVEL">Viagem</option>
                             <option value="SALARY">Salário</option>
                         </select>
+                    </div>
+                    <div className="form-space">
+                        <label>Data</label>
+                        <input
+                            type="date"
+                            placeholder="Data"
+                            value={date}
+                            onChange={handleDateChange}
+                            required
+                        />
                     </div>
                     <div className="btn-container">
                         <button type="button" onClick={onClose}>Fechar</button>

@@ -6,6 +6,7 @@ import br.com.moneyTracker.api.exceptions.SamePasswordException;
 import br.com.moneyTracker.api.exceptions.UserNotFoundException;
 import br.com.moneyTracker.domain.model.entities.User;
 import br.com.moneyTracker.api.dto.request.AuthRegisterRequestDTO;
+import br.com.moneyTracker.domain.model.enums.USER_ROLES;
 import br.com.moneyTracker.interfaces.UserServiceInterface;
 import br.com.moneyTracker.infrastructure.repository.UserRepository;
 import org.slf4j.Logger;
@@ -91,8 +92,8 @@ public class UserService implements UserServiceInterface {
         String email = dto.email();
         String encodedPassword = passwordEncoder.encode(dto.password());
 
-        logger.trace("User details - Name: {}, Email: {}", name, email);
-        return new User(name, email, encodedPassword);
+        User user = new User(name, email, encodedPassword);
+        user.setRoles(dto.rolesOrDefault());
+        return user;
     }
-
 }

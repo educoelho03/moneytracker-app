@@ -4,6 +4,7 @@ import br.com.moneyTracker.domain.model.entities.User;
 import br.com.moneyTracker.api.dto.request.AuthRegisterRequestDTO;
 import br.com.moneyTracker.api.exceptions.EmailAlreadyExistException;
 import br.com.moneyTracker.api.exceptions.SamePasswordException;
+import br.com.moneyTracker.domain.model.enums.USER_ROLES;
 import br.com.moneyTracker.infrastructure.repository.UserRepository;
 import br.com.moneyTracker.domain.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -37,7 +38,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setUp(){
-        authRegister = new AuthRegisterRequestDTO("John", "john.text@gmail.com", "javas@123");
+        authRegister = new AuthRegisterRequestDTO("John", "john.text@gmail.com", "javas@123", USER_ROLES.ROLE_USER);
     }
 
     @Test

@@ -5,6 +5,7 @@ import br.com.moneyTracker.domain.model.entities.User;
 import br.com.moneyTracker.domain.model.enums.TRANSACTION_CATEGORY;
 import br.com.moneyTracker.api.dto.response.TransactionResponseDTO;
 import br.com.moneyTracker.api.exceptions.AmountInsufficientException;
+import br.com.moneyTracker.domain.model.enums.USER_ROLES;
 import br.com.moneyTracker.domain.service.TokenService;
 import br.com.moneyTracker.infrastructure.repository.TransactionRepository;
 import br.com.moneyTracker.infrastructure.repository.UserRepository;
@@ -51,7 +52,7 @@ public class TransactionServiceTest {
 
     @BeforeEach
     void setUp(){
-        user = new User(1L, "John", "john.text@gmail.com", "javas@123", 100.0);
+        user = new User(1L, "John", "john.text@gmail.com", "javas@123", 100.0, USER_ROLES.ROLE_USER);
 
         // Configura transação de despesa
         despesa = new Transactions();
