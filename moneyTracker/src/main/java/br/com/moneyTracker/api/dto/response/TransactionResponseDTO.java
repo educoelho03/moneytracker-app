@@ -3,8 +3,10 @@ package br.com.moneyTracker.api.dto.response;
 import br.com.moneyTracker.domain.model.entities.Transactions;
 import br.com.moneyTracker.domain.model.enums.TRANSACTION_CATEGORY;
 import br.com.moneyTracker.domain.model.enums.TRANSACTION_TYPE;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record TransactionResponseDTO(
         Long transaction_id,
@@ -23,6 +25,10 @@ public record TransactionResponseDTO(
                 transaction.getTransactionCategory(),
                 transaction.getDate()
         );
+    }
+
+    public static Page<TransactionResponseDTO> fromPageEntity(Page<Transactions> transactionsPage) {
+        return transactionsPage.map(TransactionResponseDTO::fromEntity);
     }
 
 }

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,21 @@ public class TransactionController {
     @ApiResponse(responseCode = "401", description = "Não autorizado - token inválido")
     @ApiResponse(responseCode = "404", description = "Nenhuma transação encontrada")
     @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions(
+            @RequestHeader("Authorization") String token
+    ) {
         return ResponseEntity.status(200).body(transactionService.listTransactionsByEmail(token));
+    }
+
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<TransactionResponseDTO>> listAllTransactionsPageable
+            (@RequestHeader("Authorization") String token,
+             @RequestParam int page,
+             @RequestParam int size
+            ){
+        Page<Transactions> transactionsEntity = transactionService.findAllPaginacao(token, page, size);
+        Page<TransactionResponseDTO> transactionResponse = TransactionResponseDTO.fromPageEntity(transactionsEntity);
+        return ResponseEntity.status(200).body(transactionResponse);
     }
 }

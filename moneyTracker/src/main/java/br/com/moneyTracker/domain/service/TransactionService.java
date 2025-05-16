@@ -10,6 +10,9 @@ import br.com.moneyTracker.infrastructure.repository.TransactionRepository;
 import br.com.moneyTracker.infrastructure.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,12 +35,15 @@ public class TransactionService {
         this.userService = userService;
     }
 
-    public List<TransactionResponseDTO> listTransactionsByEmail(String token) { // TODO: DUVIDA AQUI, É UMA BOA PRATICA FAZER A CONVERSAO DE ENTITY PARA RESPONSE DENTRO DA SERVICE?
+
+    public List<TransactionResponseDTO> listTransactionsByEmail(String token) {
         String tokenModified = token.replace("Bearer ", "");
         String userEmail = tokenService.validateToken(tokenModified);
-        User user = userService.findUserByEmail(userEmail);
 
-        logger.info("Listing transactions for user: {}", userEmail);
+        User user = userService.findUserByEmail(userEmail);
+        logger.info("Listing all transactions for user: {}", user.getEmail());
+
+        // Page<Transactions> pagedTransactions = transactionRepository.findByUser(user, pageable);
 
         return user.getTransactions().stream()
                 .map(transactions -> new TransactionResponseDTO(
@@ -48,6 +54,16 @@ public class TransactionService {
                         transactions.getTransactionCategory(),
                         transactions.getDate()
                 )).collect(Collectors.toList());
+    }
+
+    public Page<Transactions> findAllPaginacao(String token, int pagina, int size){
+        String tokenModified = token.replace("Bearer ", "");
+        String userEmail = tokenService.validateToken(tokenModified);
+
+        User user = userService.findUserByEmail(userEmail);
+        logger.info("Listing paginated transactions for user: {}", user.getEmail());
+
+        return transactionRepository.findAllByUser(user, PageRequest.of(pagina, size));
     }
 
     public Transactions createNewTransaction(String token, Transactions transaction) {
