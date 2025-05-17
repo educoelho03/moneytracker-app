@@ -23,7 +23,7 @@ export default function Topbar() {
     return (
         <div className="topbar-container">
             <div className="topbar-content">
-                <img src="src/assets/svg/money-tracker-logo.png" className="topbar-logo-image" alt="Logo" />
+                <img src="src/assets/svg/money-tracker-logo.png" className="topbar-logo-image" alt="Logo" onClick={() => navigate("/dashboard")}/>
                 <div className="topbar-links">
                     <button onClick={() => navigate("/dashboard")}>
                         <IoHomeOutline className="nav-icon" />

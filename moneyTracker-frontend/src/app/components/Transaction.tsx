@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 
 import TransactionModal from "./TransactionModal";
 
@@ -29,6 +30,7 @@ export default function Transaction() {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [page, setPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
+    const [searchText, setSearchText] = useState<string>("");
 
     const loadTransactions = async (pageNumber: number = 0) => {
         try {
@@ -40,7 +42,8 @@ export default function Transaction() {
                 },
                 params: {
                     page: pageNumber,
-                    size: 10
+                    size: 10,
+                    sort: 'date,desc'
                 }
             });
 
@@ -52,9 +55,27 @@ export default function Transaction() {
         }
     };
 
+    const searchTransactionsByName = async (name: string) => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const response = await axios.get<Transaction[]>(`http://localhost:8080/api/transactions/${name}`, {
+                headers: {
+                    'Authorization': token
+                }
+            });
+            setTransactionData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
-        loadTransactions(0);
-    }, []);
+        if (searchText.trim() === '') {
+            loadTransactions(0);
+        } else {
+            searchTransactionsByName(searchText);
+        }
+    }, [searchText]);
 
     const handleAddTransaction = () => {
         setModalOpen(true);
@@ -88,7 +109,18 @@ export default function Transaction() {
                         Adicionar transação
                     </button>
                 </div>
-
+                <div className="search-container">
+                    <div className="search-input-wrapper">
+                        <FaSearch className="search-icon" />
+                        <input 
+                            type="text" 
+                            placeholder="Buscar por nome da transação..." 
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            className="search-input"
+                        />
+                    </div>
+                </div>
                 <div className="transaction-table">
                     <table className="transaction">
                         <thead>
@@ -154,4 +186,5 @@ export default function Transaction() {
             {modalOpen && <TransactionModal onClose={handleCloseModal}/>}
         </div>
     );
+
 }
