@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
-@Tag(name = "Usuario", description = "Controlador para atualizar a senha do usuario")
 public class UserController {
 
     private final UserService userService;
@@ -20,10 +19,6 @@ public class UserController {
     }
 
     @PostMapping("/reset-password")
-    @Operation(summary = "Atualiza a senha do usuario", description = "Método para alterar/atualizar a senha do usuario")
-    @ApiResponse(responseCode = "200", description = "Senha alterada com sucesso")
-    @ApiResponse(responseCode = "400", description = "Erro ao atualizar a senha")
-    @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<String> updatePassword(@RequestBody ResetPasswordRequestDTO passwordRequestDTO) {
         userService.updateUserPassword(passwordRequestDTO.email(), passwordRequestDTO.newPassword());
         return ResponseEntity.status(200).body("Password updated successfully.");

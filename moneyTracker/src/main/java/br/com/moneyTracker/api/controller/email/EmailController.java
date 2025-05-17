@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/mail")
-@Tag(name = "Email", description = "Controller responsável pelo envio de e-mails do sistema")
 public class EmailController {
 
     private final EmailServiceSendgrid emailService;
@@ -26,11 +25,6 @@ public class EmailController {
     }
 
     @PostMapping("/forgot-password")
-    @Operation(summary = "Envia e-mail de redefinição de senha",
-            description = "Envia um e-mail com link para redefinição de senha para o endereço fornecido")
-    @ApiResponse(responseCode = "200", description = "E-mail enviado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Endereço de e-mail inválido ou não encontrado")
-    @ApiResponse(responseCode = "500", description = "Falha ao enviar o e-mail")
     public ResponseEntity<?> sendEmailPasswordReset(@RequestBody @Valid EmailRequestDTO emailRequestDTO) {
         try {
             String resetPasswordLink = "http://localhost:5173/reset-password";

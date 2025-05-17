@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "Autenticação", description = "Controller responsável por autenticar e registrar os usuários")
 public class AuthController {
 
     private final AuthService authService;
@@ -23,20 +22,12 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    @Operation(summary = "Realiza o login do usuario", description = "Método para logar o usuario na pagina.")
-    @ApiResponse(responseCode = "200", description = "Login realizado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Credenciais inválidas ou erro na requisição")
-    @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<DataResponseDTO> loginUser(@RequestBody AuthLoginRequestDTO body) {
         DataResponseDTO response = authService.loginUser(body);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    @Operation(summary = "Registra um novo usuário", description = "Método para cadastrar um novo usuário no sistema")
-    @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Dados inválidos ou usuário já existente")
-    @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<DataResponseDTO> registerUser(@RequestBody AuthRegisterRequestDTO body) {
         DataResponseDTO response = authService.registerUser(body);
         return ResponseEntity.ok(response);
