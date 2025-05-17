@@ -31,4 +31,10 @@ public record TransactionResponseDTO(
         return transactionsPage.map(TransactionResponseDTO::fromEntity);
     }
 
+    public static List<TransactionResponseDTO> fromEntityList(List<Transactions> transactions) {
+        return transactions.stream().map(
+                TransactionResponseDTO::fromEntity
+        ).toList();
+    }
+
 }
