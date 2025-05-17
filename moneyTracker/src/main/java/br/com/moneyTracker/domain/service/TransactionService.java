@@ -66,6 +66,16 @@ public class TransactionService {
         return transactionRepository.findAllByUser(user, PageRequest.of(pagina, size));
     }
 
+    public List<Transactions> listAllTransactionsByName(String token, String name){
+        String tokenModified = token.replace("Bearer ", "");
+        String userEmail = tokenService.validateToken(tokenModified);
+
+        User user = userService.findUserByEmail(userEmail);
+        logger.info("Listing all transactions for user: {}", user.getEmail());
+
+        return transactionRepository.findAllByUserAndNameContainingIgnoreCase(user, name);
+    }
+
     public Transactions createNewTransaction(String token, Transactions transaction) {
         String userEmail = tokenService.validateToken(token); // TODO: REVER ESSE PONTO
         User user = userService.findUserByEmail(userEmail);
