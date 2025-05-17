@@ -4,6 +4,7 @@ import br.com.moneyTracker.domain.model.entities.Transactions;
 import br.com.moneyTracker.api.dto.request.TransactionRequestDTO;
 import br.com.moneyTracker.api.dto.response.TransactionResponseDTO;
 import br.com.moneyTracker.config.security.SecurityConfig;
+import br.com.moneyTracker.domain.model.enums.TRANSACTION_TYPE;
 import br.com.moneyTracker.domain.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,12 +53,23 @@ public class TransactionController {
         return ResponseEntity.status(200).body(transactionResponse);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/filter/{name}")
     public ResponseEntity<List<TransactionResponseDTO>> filterTransactionsByName
             (@RequestHeader("Authorization") String token,
              @PathVariable String name
             ){
         List<Transactions> transactionsEntity = transactionService.listAllTransactionsByName(token, name);
+        List<TransactionResponseDTO> transactionResponse = TransactionResponseDTO.fromEntityList(transactionsEntity);
+        return ResponseEntity.status(200).body(transactionResponse);
+    }
+
+    @GetMapping("/filter/{name}/{transactionType}")
+    public ResponseEntity<List<TransactionResponseDTO>> filterTransactionsByName
+            (@RequestHeader("Authorization") String token,
+             @RequestParam String name,
+             @RequestParam String transactionType
+            ){
+        List<Transactions> transactionsEntity = transactionService.listAllTransactionsByNameAndType(token, name, transactionType);
         List<TransactionResponseDTO> transactionResponse = TransactionResponseDTO.fromEntityList(transactionsEntity);
         return ResponseEntity.status(200).body(transactionResponse);
     }

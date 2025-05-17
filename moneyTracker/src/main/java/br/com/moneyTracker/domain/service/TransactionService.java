@@ -35,15 +35,12 @@ public class TransactionService {
         this.userService = userService;
     }
 
-
     public List<TransactionResponseDTO> listTransactionsByEmail(String token) {
         String tokenModified = token.replace("Bearer ", "");
         String userEmail = tokenService.validateToken(tokenModified);
 
         User user = userService.findUserByEmail(userEmail);
         logger.info("Listing all transactions for user: {}", user.getEmail());
-
-        // Page<Transactions> pagedTransactions = transactionRepository.findByUser(user, pageable);
 
         return user.getTransactions().stream()
                 .map(transactions -> new TransactionResponseDTO(
@@ -75,6 +72,8 @@ public class TransactionService {
 
         return transactionRepository.findAllByUserAndNameContainingIgnoreCase(user, name);
     }
+
+
 
     public Transactions createNewTransaction(String token, Transactions transaction) {
         String userEmail = tokenService.validateToken(token); // TODO: REVER ESSE PONTO
@@ -129,6 +128,17 @@ public class TransactionService {
         logger.info("Subtracting to balance for user: {}. amount: {}", user.getEmail(), amount);
         user.setSaldo(newBalance);
         logger.info("Final balance for user: {}. amount: {}", user.getEmail(), user.getSaldo());
+    }
 
+    public List<Transactions> listAllTransactionsByNameAndType(String token, String name, String type) {
+        String tokenModified = token.replace("Bearer ", "");
+        String userEmail = tokenService.validateToken(tokenModified);
+
+        User user = userService.findUserByEmail(userEmail);
+        logger.info("Listing all transactions for user: {}", user.getEmail());
+
+        TRANSACTION_TYPE transactionType = TRANSACTION_TYPE.valueOf(type);
+
+        return transactionRepository.findAllByUserAndNameAndTransactionType(user, name, transactionType);
     }
 }
