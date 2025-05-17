@@ -31,6 +31,7 @@ export default function Transaction() {
     const [page, setPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [searchText, setSearchText] = useState<string>("");
+    const [selectedTransactionType, setSelectedTransactionType] = useState<string>("");
 
     const loadTransactions = async (pageNumber: number = 0) => {
         try {
@@ -58,7 +59,21 @@ export default function Transaction() {
     const searchTransactionsByName = async (name: string) => {
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.get<Transaction[]>(`http://localhost:8080/api/transactions/${name}`, {
+            const response = await axios.get<Transaction[]>(`http://localhost:8080/api/transactions/filter/${name}`, {
+                headers: {
+                    'Authorization': token
+                }
+            });
+            setTransactionData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const searchTransactionsByNameAndType = async (name: string, type: string) => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const response = await axios.get<Transaction[]>(`http://localhost:8080/api/transactions/filter/${name}/${type}`, {
                 headers: {
                     'Authorization': token
                 }
@@ -72,10 +87,12 @@ export default function Transaction() {
     useEffect(() => {
         if (searchText.trim() === '') {
             loadTransactions(0);
-        } else {
+        } else if (selectedTransactionType === '') {
             searchTransactionsByName(searchText);
+        } else {
+            searchTransactionsByNameAndType(searchText, selectedTransactionType);
         }
-    }, [searchText]);
+    }, [searchText, selectedTransactionType]);
 
     const handleAddTransaction = () => {
         setModalOpen(true);
@@ -109,16 +126,29 @@ export default function Transaction() {
                         Adicionar transação
                     </button>
                 </div>
-                <div className="search-container">
-                    <div className="search-input-wrapper">
-                        <FaSearch className="search-icon" />
-                        <input 
-                            type="text" 
-                            placeholder="Buscar por nome da transação..." 
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            className="search-input"
-                        />
+                <div className="filters-container">
+                    <div className="search-container">
+                        <div className="search-input-wrapper">
+                            <FaSearch className="search-icon" />
+                            <input 
+                                type="text" 
+                                placeholder="Buscar por nome da transação..." 
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                className="search-input"
+                            />
+                        </div>
+                    </div>
+                    <div className="select-container">
+                        <select 
+                            value={selectedTransactionType}
+                            onChange={(e) => setSelectedTransactionType(e.target.value)}
+                            className="transaction-type-select"
+                        >
+                            <option value="">Todos os tipos</option>
+                            <option value="DESPESA">Despesa</option>
+                            <option value="DEPOSITO">Depósito</option>
+                        </select>
                     </div>
                 </div>
                 <div className="transaction-table">
